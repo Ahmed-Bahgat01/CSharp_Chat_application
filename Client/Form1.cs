@@ -16,8 +16,10 @@ using System.Windows.Forms;
 
 namespace Client
 {
+    enum ClientState { Connected, Disconnected };
     public partial class ClientForm : Form
     {
+        ClientState CurrentState;
         IPAddress ServerAddress;
         int ServerPort;
         TcpClient MyClient;
@@ -27,6 +29,7 @@ namespace Client
         public ClientForm()
         {
             InitializeComponent();
+            CurrentState = ClientState.Disconnected;
             ServerAddress = IPAddress.Parse("127.0.0.1");
             ServerPort = 6666;
             MyClient = null;
@@ -40,8 +43,41 @@ namespace Client
             
             while (true)
             {
-                string msg = await SR.ReadLineAsync();
-                ChatHistoryListBox.Items.Add($"{msg}");
+                try
+                {
+                    string msg = await SR.ReadLineAsync();
+                    ChatHistoryListBox.Items.Add($"{msg}");
+                }
+                catch(Exception ex )
+                {
+                    Disconnect();
+                }
+            }
+        }
+
+        private void Disconnect()
+        {
+            if (SR != null) { SR.Close(); }
+            if (NStream != null) { NStream.Close(); }
+            if (MyClient != null)
+            {
+                MyClient.Close();
+            }
+        }
+
+        private void SetClientState(ClientState currentState)
+        {
+            if(currentState == ClientState.Disconnected)
+            {
+                ConnectBtn.Enabled = true;
+                DisconnectBtn.Enabled = false;
+                SendMessageBtn.Enabled = false;
+            }
+            else if(currentState == ClientState.Connected)
+            {
+                ConnectBtn.Enabled = false;
+                DisconnectBtn.Enabled = true;
+                SendMessageBtn.Enabled = true;
             }
         }
 
@@ -52,7 +88,12 @@ namespace Client
             NStream = MyClient.GetStream();
             SR = new StreamReader(NStream);
             ReceiveMessage();
+            SetClientState(ClientState.Connected);
+        }
 
+        private void ClientForm_Paint(object sender, PaintEventArgs e)
+        {
+            SetClientState(ClientState.Disconnected);
         }
 
         private void SendMessageBtn_Click(object sender, EventArgs e)
@@ -65,5 +106,13 @@ namespace Client
                 MessageTextBox.Clear();
             }
         }
+        
+
+        private void DisconnectBtn_Click(object sender, EventArgs e)
+        {
+            Disconnect();
+        }
+
+        
     }
 }

@@ -119,6 +119,7 @@
             this.DisconnectBtn.TabIndex = 2;
             this.DisconnectBtn.Text = "Disconnect";
             this.DisconnectBtn.UseVisualStyleBackColor = true;
+            this.DisconnectBtn.Click += new System.EventHandler(this.DisconnectBtn_Click);
             // 
             // MessageTextBox
             // 
@@ -137,6 +138,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "ClientForm";
             this.Text = "Client";
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.ClientForm_Paint);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
