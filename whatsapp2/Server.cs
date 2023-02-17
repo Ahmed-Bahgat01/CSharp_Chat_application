@@ -12,7 +12,7 @@ namespace whatsapp2
     internal class Server
     {
         private List<Client> _clients;
-        private IPAddress _IP = IPAddress.Parse("192.168.1.12");                //change me
+        private IPAddress _IP = IPAddress.Parse("127.0.0.1");                //change me
         private int _PORT = 6666;                                               //change me
         private TcpListener _tcpListener;
 
@@ -33,9 +33,13 @@ namespace whatsapp2
             _tcpListener.Start();
             MessageBox.Show("started");
             while(true) { 
+
                 TcpClient tcpClient = await _tcpListener.AcceptTcpClientAsync();
                 MessageBox.Show("a client connected!");
-                _clients.Add(new Client(tcpClient));
+                Client newClient = new Client(tcpClient);
+                // subscribe into client recieved message event
+                newClient._recievedMessageEvent += ClientRecievedMessageHandler;
+                _clients.Add(newClient);
             }
         }
         public void Stop()                              //work in progress
@@ -44,10 +48,13 @@ namespace whatsapp2
             {
                 client.EndClient();
             }
-            _tcpListener.Stop();
         }
-        public void Broadcast(string msg) { 
-            foreach(Client client in _clients)
+        public void ClientRecievedMessageHandler(object sender, RecievedMessageEventData eventData) {
+            Broadcast(eventData._msg);
+        }
+        public void Broadcast(string msg)
+        {
+            foreach (Client client in _clients)
             {
                 client._session._streamWriter.WriteLine(msg);
             }
