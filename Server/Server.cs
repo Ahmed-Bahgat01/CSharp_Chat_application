@@ -16,7 +16,6 @@ namespace Server
         private int _PORT = 6666;                                               //change me
         private TcpListener _tcpListener;
 
-
         public Server()
         {
             _tcpListener = new TcpListener(_IP, _PORT);
