@@ -12,7 +12,7 @@ namespace whatsapp2
     internal class Server
     {
         private List<Client> _clients;
-        private IPAddress _IP = IPAddress.Parse("192.168.1.12");                //change me
+        private IPAddress _IP = IPAddress.Parse("127.0.0.1");                //change me
         private int _PORT = 6666;                                               //change me
         private TcpListener _tcpListener;
 
