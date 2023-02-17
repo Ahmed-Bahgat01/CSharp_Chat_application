@@ -41,7 +41,7 @@ namespace Client
             while (true)
             {
                 string msg = await SR.ReadLineAsync();
-                ChatHistoryListBox.Items.Add($"Server: {msg}");
+                ChatHistoryListBox.Items.Add($"{msg}");
             }
         }
 
@@ -62,7 +62,6 @@ namespace Client
                 SW = new StreamWriter(NStream);
                 SW.AutoFlush= true;
                 SW.WriteLine(MessageTextBox.Text);
-                ChatHistoryListBox.Items.Add($"You: {MessageTextBox.Text}");
                 MessageTextBox.Clear();
             }
         }
