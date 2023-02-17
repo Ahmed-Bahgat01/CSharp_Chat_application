@@ -33,6 +33,7 @@ namespace whatsapp2
             _tcpListener.Start();
             MessageBox.Show("started");
             while(true) { 
+
                 TcpClient tcpClient = await _tcpListener.AcceptTcpClientAsync();
                 MessageBox.Show("a client connected!");
                 _clients.Add(new Client(tcpClient));
@@ -44,7 +45,6 @@ namespace whatsapp2
             {
                 client.EndClient();
             }
-            _tcpListener.Stop();
         }
         public void Broadcast(string msg) { 
             foreach(Client client in _clients)

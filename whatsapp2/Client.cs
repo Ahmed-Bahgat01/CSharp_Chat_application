@@ -21,6 +21,7 @@ namespace whatsapp2
         public Client(TcpClient tcpClient) {
             _session=new Session(tcpClient);
             MessageListener();
+            _active= true;
         }
 
         public void EndClient()             //work in progress
@@ -35,9 +36,20 @@ namespace whatsapp2
         {
             while (true)
             {
+                try
+                {
+                    string msg = await _session._streamReader.ReadLineAsync();      //لما الstreamReader هيرمي exception علشان شغال هنا
+                    MessageBox.Show(msg);
+                }catch(Exception ex)
+                {
+                    MessageBox.Show($"(Cannot read message from socket server client) ERROR 1:{ex.Message}");
+                    _session.Stop();
+                    _active= false;
+                    // TODO: fire an event that this client has been terminated for the server to delete it from alive clients
+                    
+                    break;
+                }
                 
-                string msg = await _session._streamReader.ReadLineAsync();      //لما الstreamReader هيرمي exception علشان شغال هنا
-                MessageBox.Show(msg);
             }
         }
 
