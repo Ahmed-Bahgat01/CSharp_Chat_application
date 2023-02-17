@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace whatsapp2
+namespace Server
 {
     internal class RecievedMessageEventData:EventArgs
     {

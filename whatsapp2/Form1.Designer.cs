@@ -1,4 +1,4 @@
-﻿namespace whatsapp2
+﻿namespace Server
 {
     partial class Form1
     {

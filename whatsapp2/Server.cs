@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace whatsapp2
+namespace Server
 {
     internal class Server
     {

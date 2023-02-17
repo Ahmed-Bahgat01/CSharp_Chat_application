@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace whatsapp2
+namespace Server
 {
     
     public partial class Form1 : Form

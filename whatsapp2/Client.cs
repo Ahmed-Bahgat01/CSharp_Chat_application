@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace whatsapp2
+namespace Server
 {
     internal class Client                           //diffrent from client obj in client side
     {
